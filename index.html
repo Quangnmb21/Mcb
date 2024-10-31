@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+    <title>Data_Sensor</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <div>
+                <div class="weather-icon">
+                    <img src="images/pngtree-d-render-of-a-majestic-tree-standing-tall-in-the-rain-image_3730025.jpg" alt="" id="icon">
+                </div>
+                <div class="temprature">
+                    <h2 id="current-time"></h2>
+                </div>
+                <div class="date-time">
+                    <p id="date-time"></p>
+                </div>
+                <div class="divider"></div>
+                <div class="location">
+                    <div class="location-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="location-text">
+                        <p class="location" id="location">Loading location...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main">
+            <nav>
+                <ul class="options">
+                    <button class="Control active">Control</button>
+                    <button class="Chart">Chart</button>
+                    <button class="Data">Data</button>
+                </ul>
+            </nav>
+            <!-- Tab Control -->
+            <div id="content-Control" class="tab-content active">
+                <div class="cards" id="weather-cards">
+                    <div class="card3">
+                        <h4 class="card-heading">Thông tin cảm biến đo được</h4>
+                        <div class="content">
+                            <div class="icon-info">
+                                <i class="fa-solid fa-thermometer-half"></i>
+                                <p class="temperature-text">Loading</p>
+                            </div>
+                            <div class="icon-info">
+                                <i class="fa-solid fa-sun"></i>
+                                <p class="light-text">Loading lux</p>
+                            </div>
+                            <div class="icon-info">
+                                <i class="fa-solid fa-droplet"></i>
+                                <p class="humidity-text">Loading %</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hightlights">
+                    <h2 class="heading">Today's Highlights</h2>
+                    <!-- Lamp Card -->
+                    <div class="card2">
+                        <h4 class="card-heading">Lamp</h4>
+                        <div class="content" onclick="toggleLed('led1')">
+                            <i class="fa-solid fa-lightbulb" id="lightbulb-icon"></i>
+                            <p class="status-text" id="lamp-status">Closed</p>
+                        </div>
+                    </div>
+                    <!-- Fan Card -->
+                    <div class="card2">
+                        <h4 class="card-heading">Fan</h4>
+                        <div class="content" onclick="toggleLed('led2')">
+                            <i class="fa-solid fa-fan" id="fan-icon"></i>
+                            <p class="status-text" id="fan-status">Closed</p>
+                        </div>
+                    </div>
+                    <!-- Warning Card -->
+                    <div class="card2">
+                        <h4 class="card-heading">Warning</h4>
+                        <div class="content" onclick="toggleLed('led3')">
+                            <i class="fa-solid fa-triangle-exclamation" id="warning-icon"></i>
+                            <p class="status-text" id="warning-status">Closed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tab Chart -->
+            <div id="content-Chart" class="tab-content">
+                <div class="cards" id="weather-cards-Chart">
+                    <div class="card3">
+                        <h4 class="card-heading">Thông tin cảm biến đo được</h4>
+                        <div class="content">
+                            <div class="icon-info">
+                                <i class="fa-solid fa-thermometer-half"></i>
+                                <p class="temperature-text-chart">Loading</p>
+                            </div>
+                            <div class="icon-info">
+                                <i class="fa-solid fa-sun"></i>
+                                <p class="light-text-chart">Loading lux</p>
+                            </div>
+                            <div class="icon-info">
+                                <i class="fa-solid fa-droplet"></i>
+                                <p class="humidity-text-chart">Loading %</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <canvas id="myChart" style="width: 100%; height: 400px;"></canvas>
+            </div>
+            <!-- Tab Data -->
+            <div id="content-Data" class="tab-content">
+                <!-- Dropdown để chọn tab con -->
+                <select id="sub-tab-select">
+                    <option value="datasensor">DataSensor</option>
+                    <option value="device">Device</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Enter search term" />
+                <button id="searchButton">Search</button>
+                <div id="results"></div>
+                <!-- Tab DataSensor -->
+                <div id="content-Datasensor" class="sub-tab-content" style="display:block;">
+                    <h3>Tab DataSensor</h3>
+                    <table id="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                                <th>Light</th>
+                                <th>Times</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dữ liệu sẽ được thêm vào đây -->
+                        </tbody>
+                    </table>
+                    <div class="pagination-container">
+                        <button id="previous-button">Previous</button>
+                        <input type="number" id="page-input" value="1" min="1" style="width: 50px;">
+                        <button id="go-button">Go</button>
+                        <button id="next-button">Next</button>
+                        <span id="page-info">1 / 1</span>
+                    </div>
+                </div>
+                <!-- Tab Device -->
+                <div id="content-Device" class="sub-tab-content" style="display:none;">
+                    <h3>Tab Device</h3>
+                    <table id="device-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Device</th>
+                                <th>Action</th>
+                                <th>Times</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dữ liệu sẽ được thêm vào đây -->
+                        </tbody>
+                    </table>
+                    <div class="pagination-container">
+                        <button id="previous-button-device">Previous</button>
+                        <input type="number" id="page-input-device" value="1" min="1" style="width: 50px;">
+                        <button id="go-button-device">Go</button>
+                        <button id="next-button-device">Next</button>
+                        <span id="page-info-device">1 / 1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="search.js"></script>
+    <script src="./script.js"></script>
+    <script src="dataTabManager.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
